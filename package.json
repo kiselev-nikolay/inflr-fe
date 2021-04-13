@@ -1,0 +1,15 @@
+{
+  "name": "",
+  "version": "",
+  "dependencies": {
+    "@eva-design/eva": "^2.0.0",
+    "@ui-kitten/components": "^5.0.0",
+    "react": "^17.0.2",
+    "react-native": "^0.64.0",
+    "react-native-svg": "^12.1.1-0",
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "expo-cli": "^4.3.5"
+  }
+}
