@@ -3,6 +3,8 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 
+import { withStyles } from '@ui-kitten/components';
+
 import InflrApp from './app/App';
 
 export default (props: any) => {
@@ -30,5 +32,6 @@ export default (props: any) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  return <InflrApp />;
+  let StyledInflrApp = withStyles(InflrApp);
+  return <StyledInflrApp />;
 };

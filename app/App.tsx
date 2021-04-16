@@ -1,15 +1,18 @@
 import React from 'react';
 
 import {
+  Animated,
   Platform,
   SafeAreaView,
   StatusBar,
+  View,
 } from 'react-native';
 
 import * as eva from '@eva-design/eva';
 import {
   ApplicationProvider,
   BottomNavigation,
+  Divider,
   IconRegistry,
 } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -26,17 +29,29 @@ import { generateMapping } from './theme/Fonts';
 
 const mapping = generateMapping("Jost");
 
-interface AppProps { }
+const smoothScroll = (x: any) => {
+  return Animated.event(
+    [
+      { nativeEvent: { contentOffset: { y: x.state.scrollY } } }
+    ],
+    { useNativeDriver: true }
+  );
+};
+
+interface AppProps {
+  eva?: any;
+}
 interface AppState {
-  theme: string,
+  theme: string;
   selectedIndex: number;
+  scrollY: Animated.Value;
 }
 export default class App extends React.Component<AppProps, AppState>{
   screens: Map<number, { title: string, node: any; }>;
 
   constructor(props: any) {
     super(props);
-    this.state = { theme: 'evalight', selectedIndex: 0 };
+    this.state = { theme: 'evalight', selectedIndex: 0, scrollY: new Animated.Value(0) };
     this.screens = new Map<number, any>();
     this.screens.set(0, { title: "Reward", node: <RewardScreen /> });
     this.screens.set(1, { title: "Messages", node: <MessagesScreen /> });
@@ -52,14 +67,18 @@ export default class App extends React.Component<AppProps, AppState>{
   };
   render() {
     return (
-      <>
+      <View style={{ flex: 1, backgroundColor: this.props.eva.theme['background-basic-color-1'] }}>
         <IconRegistry icons={EvaIconsPack} />
         <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0 }}>
           <ApplicationProvider {...eva} customMapping={mapping} theme={themes.get(this.state.theme)}>
             <AppTitle title={this.screens.get(this.state.selectedIndex)?.title || ""} />
-            <AppScreen>
-              {this.screens.get(this.state.selectedIndex)?.node}
-            </AppScreen>
+            <Animated.ScrollView scrollEventThrottle={160}
+              onScroll={smoothScroll(this)}>
+              <AppScreen>
+                {this.screens.get(this.state.selectedIndex)?.node}
+              </AppScreen>
+            </Animated.ScrollView>
+            <Divider />
             <BottomNavigation
               selectedIndex={this.state.selectedIndex}
               onSelect={index => this.setSelectedIndex(index)}>
@@ -67,7 +86,7 @@ export default class App extends React.Component<AppProps, AppState>{
             </BottomNavigation>
           </ApplicationProvider>
         </SafeAreaView>
-      </>
+      </View>
     );
   }
 };
