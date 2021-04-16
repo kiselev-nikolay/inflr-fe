@@ -1,16 +1,20 @@
 import React from 'react';
-import { Text } from '@ui-kitten/components';
-import { AppScreen } from '../AppScreen';
+import { Text, Button } from '@ui-kitten/components';
 
-export class SettingsScreen extends React.Component<any> {
-  constructor(props: any) {
+interface SettingsScreenProps {
+  toggleTheme: () => void;
+}
+
+export class SettingsScreen extends React.Component<SettingsScreenProps, any> {
+  constructor(props: SettingsScreenProps) {
     super(props);
   }
   render() {
     return (
-      <AppScreen title="Settings">
+      <>
         <Text category="h1">Settings</Text>
-      </AppScreen>
+        <Button onPress={() => { this.props.toggleTheme(); }}>Change theme</Button>
+      </>
     );
   }
 }
