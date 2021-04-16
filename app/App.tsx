@@ -22,6 +22,9 @@ import { MessagesScreen } from './screens/messages/MessagesScreen';
 import { RewardScreen } from './screens/reward/RewardScreen';
 import { SettingsScreen } from './screens/settings/SettingsScreen';
 import themes from './theme';
+import { generateMapping } from './theme/Fonts';
+
+const mapping = generateMapping("Jost");
 
 interface AppProps { }
 interface AppState {
@@ -52,7 +55,7 @@ export default class App extends React.Component<AppProps, AppState>{
       <>
         <IconRegistry icons={EvaIconsPack} />
         <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0 }}>
-          <ApplicationProvider {...eva} theme={themes.get(this.state.theme)}>
+          <ApplicationProvider {...eva} customMapping={mapping} theme={themes.get(this.state.theme)}>
             <AppTitle title={this.screens.get(this.state.selectedIndex)?.title || ""} />
             <AppScreen>
               {this.screens.get(this.state.selectedIndex)?.node}

@@ -13,10 +13,10 @@ export class RewardScreen extends React.Component<any> {
   render() {
     return (
       <Card>
-        <Text style={{ marginBottom: 10 }} category='h1'>
+        <Text style={{ marginBottom: 10 }} category='h4'>
           Patrick J. Joyce
           </Text>
-        <Text style={{ marginBottom: 10 }}>
+        <Text style={{ marginBottom: 10, textAlign: "justify" }}>
           Democratic member of the Illinois Senate from the 40th district
           since November 8, 2019. The 40th district, located partly in the
           Chicagoland area, includes all or parts of Bourbonnais, Bradley,
@@ -27,7 +27,7 @@ export class RewardScreen extends React.Component<any> {
           </Text>
         <Button onPress={() => { }}>
           Useless button
-          </Button>
+        </Button>
       </Card>
     );
   }
