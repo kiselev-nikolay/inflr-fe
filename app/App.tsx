@@ -21,11 +21,7 @@ import { ContactsScreen } from './screens/contacts/ContactsScreen';
 import { MessagesScreen } from './screens/messages/MessagesScreen';
 import { RewardScreen } from './screens/reward/RewardScreen';
 import { SettingsScreen } from './screens/settings/SettingsScreen';
-
-let themes = new Map<string, any>();
-
-themes.set("evadark", eva.dark);
-themes.set("evalight", eva.light);
+import themes from './theme';
 
 interface AppProps { }
 interface AppState {
