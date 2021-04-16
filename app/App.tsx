@@ -65,12 +65,22 @@ export default class App extends React.Component<AppProps, AppState>{
   setSelectedIndex(index: number) {
     this.setState({ selectedIndex: index });
   };
+  getColor(name: string): string {
+    let v = themes.get(this.state.theme)[name];
+    if (v.slice(0, 1) === "$") {
+      return this.getColor(v.slice(1));
+    }
+    return v;
+  }
   render() {
+    let bg = this.getColor("background-basic-color-2");
     return (
-      <View style={{ flex: 1, backgroundColor: this.props.eva.theme['background-basic-color-1'] }}>
+      <ApplicationProvider {...eva}
+        customMapping={mapping}
+        theme={themes.get(this.state.theme)}>
         <IconRegistry icons={EvaIconsPack} />
         <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0 }}>
-          <ApplicationProvider {...eva} customMapping={mapping} theme={themes.get(this.state.theme)}>
+          <View style={{ flex: 1, backgroundColor: bg }}>
             <AppTitle title={this.screens.get(this.state.selectedIndex)?.title || ""} />
             <Animated.ScrollView scrollEventThrottle={160}
               onScroll={smoothScroll(this)}>
@@ -84,9 +94,9 @@ export default class App extends React.Component<AppProps, AppState>{
               onSelect={index => this.setSelectedIndex(index)}>
               {appNavigationBarItems}
             </BottomNavigation>
-          </ApplicationProvider>
+          </View>
         </SafeAreaView>
-      </View>
+      </ApplicationProvider>
     );
   }
 };
