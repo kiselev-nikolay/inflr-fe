@@ -1,10 +1,17 @@
 import React from 'react';
-import { Divider, Text, Icon, Layout } from '@ui-kitten/components';
+
 import { View } from 'react-native';
+
+import {
+  Divider,
+  Icon,
+  Layout,
+  Text,
+} from '@ui-kitten/components';
+
 import { Logo } from '../logo';
 
 interface AppTitleProps {
-  eva: any;
   title: string;
 }
 

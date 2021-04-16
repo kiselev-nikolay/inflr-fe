@@ -1,5 +1,9 @@
 import React from 'react';
-import { Layout, Text, Button } from '@ui-kitten/components';
+
+import {
+  Button,
+  Text,
+} from '@ui-kitten/components';
 
 export class MessagesScreen extends React.Component<any> {
   constructor(props: any) {

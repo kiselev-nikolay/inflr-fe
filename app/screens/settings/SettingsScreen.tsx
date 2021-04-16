@@ -1,5 +1,9 @@
 import React from 'react';
-import { Text, Button } from '@ui-kitten/components';
+
+import {
+  Button,
+  Text,
+} from '@ui-kitten/components';
 
 interface SettingsScreenProps {
   toggleTheme: () => void;

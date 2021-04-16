@@ -1,19 +1,26 @@
 import React from 'react';
-import { Platform, SafeAreaView, StatusBar } from 'react-native';
+
+import {
+  Platform,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
 
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, BottomNavigation, IconRegistry } from '@ui-kitten/components';
+import {
+  ApplicationProvider,
+  BottomNavigation,
+  IconRegistry,
+} from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-
-import { ContactsScreen } from './screens/contacts/ContactsScreen';
-import { MessagesScreen } from './screens/messages/MessagesScreen';
-import { RewardScreen } from './screens/reward/RewardScreen';
-import { SettingsScreen } from './screens/settings/SettingsScreen';
-
 
 import { appNavigationBarItems } from './navigation/BarItems';
 import { AppScreen } from './screens/AppScreen';
 import { AppTitle } from './screens/AppTitle';
+import { ContactsScreen } from './screens/contacts/ContactsScreen';
+import { MessagesScreen } from './screens/messages/MessagesScreen';
+import { RewardScreen } from './screens/reward/RewardScreen';
+import { SettingsScreen } from './screens/settings/SettingsScreen';
 
 let themes = new Map<string, any>();
 

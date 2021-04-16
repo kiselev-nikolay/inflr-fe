@@ -1,5 +1,9 @@
 import React from 'react';
-import { BottomNavigationTab, Icon } from '@ui-kitten/components';
+
+import {
+  BottomNavigationTab,
+  Icon,
+} from '@ui-kitten/components';
 
 const PeopleIcon = (props: any) => (
   <Icon {...props} name='people-outline' />

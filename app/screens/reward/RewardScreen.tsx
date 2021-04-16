@@ -1,5 +1,10 @@
 import React from 'react';
-import { Text, Button, Card } from '@ui-kitten/components';
+
+import {
+  Button,
+  Card,
+  Text,
+} from '@ui-kitten/components';
 
 export class RewardScreen extends React.Component<any> {
   constructor(props: any) {
