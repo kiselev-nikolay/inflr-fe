@@ -4,7 +4,7 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import { Navigation } from './navigation/Bar';
+import { Navigation } from './app/navigation/Bar';
 
 export default () => (
   <>
