@@ -20,9 +20,9 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { appNavigationBarItems } from './navigation/BarItems';
 import { AppScreen } from './screens/AppScreen';
 import { AppTitle } from './screens/AppTitle';
-import { ContactsScreen } from './screens/contacts/ContactsScreen';
+import { InboxScreen } from './screens/inbox/InboxScreen';
 import { MessagesScreen } from './screens/messages/MessagesScreen';
-import { RewardScreen } from './screens/reward/RewardScreen';
+import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { SettingsScreen } from './screens/settings/SettingsScreen';
 import themes from './theme';
 import { generateMapping } from './theme/Fonts';
@@ -53,10 +53,10 @@ export default class App extends React.Component<AppProps, AppState>{
     super(props);
     this.state = { theme: 'evadark', selectedIndex: 0, scrollY: new Animated.Value(0) };
     this.screens = new Map<number, any>();
-    this.screens.set(0, { title: "Reward", node: <RewardScreen /> });
-    this.screens.set(1, { title: "Messages", node: <MessagesScreen /> });
-    this.screens.set(2, { title: "Contacts", node: <ContactsScreen /> });
-    this.screens.set(3, { title: "Settings", node: <SettingsScreen toggleTheme={() => { this.toggleTheme(); }} /> });
+    this.screens.set(0, { title: "Inbox", node: () => <InboxScreen /> });
+    this.screens.set(1, { title: "Messages", node: () => <MessagesScreen /> });
+    this.screens.set(2, { title: "Profile", node: () => <ProfileScreen /> });
+    this.screens.set(3, { title: "Settings", node: () => <SettingsScreen theme={this.state.theme} toggleTheme={() => { this.toggleTheme(); }} /> });
   }
   toggleTheme() {
     const nextTheme = this.state.theme === 'evalight' ? 'evadark' : 'evalight';
@@ -73,7 +73,7 @@ export default class App extends React.Component<AppProps, AppState>{
     return v;
   }
   render() {
-    let bg = this.getColor("background-basic-color-2");
+    let bg = this.getColor("background-basic-color-3");
     return (
       <ApplicationProvider {...eva}
         customMapping={mapping}
@@ -85,7 +85,7 @@ export default class App extends React.Component<AppProps, AppState>{
             <Animated.ScrollView scrollEventThrottle={160}
               onScroll={smoothScroll(this)}>
               <AppScreen>
-                {this.screens.get(this.state.selectedIndex)?.node}
+                {this.screens.get(this.state.selectedIndex)?.node.bind(this)()}
               </AppScreen>
             </Animated.ScrollView>
             <Divider />

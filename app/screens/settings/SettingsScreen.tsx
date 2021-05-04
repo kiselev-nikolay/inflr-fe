@@ -1,132 +1,69 @@
 import React from 'react';
 
-import numeral from 'numeral';
 import { View } from 'react-native';
-import * as timeago from 'timeago.js';
 
 import {
-  Avatar,
   Button,
   Card,
-  Divider,
+  Icon,
   Input,
-  Layout,
   Text,
+  Toggle,
 } from '@ui-kitten/components';
 
-import tokenService from '../../api/auth';
 import profileService from '../../api/profile';
-
-interface YoutubeData {
-  title: string;
-  description: string;
-  imageUrl: string;
-  register: string;
-  subs: number;
-  videos: number;
-  views: number;
-}
-interface YoutubeProps {
-  data: YoutubeData;
-}
-function Youtube(props: YoutubeProps) {
-  const Header = () => (
-    <View style={{ padding: 20, }}>
-      <Text category='h5'>{props.data.title}</Text>
-      <Text>Created {timeago.format(Date.parse(props.data.register))}</Text>
-    </View>
-  );
-  return (<Card header={Header} style={{ marginVertical: 10 }}>
-    <Layout style={{ flex: 1, flexDirection: 'row', width: '100%' }} level='1'>
-      <Layout style={{ flex: 1, flexDirection: 'row', width: '100%' }} level='1'>
-        <Avatar source={{ uri: props.data.imageUrl }} />
-      </Layout>
-      <Layout style={{ flex: 1, flexDirection: 'row', width: '100%' }} level='1'>
-        <Text>Subs: {numeral(props.data.subs).format('0.0a')}</Text>
-      </Layout>
-      <Layout style={{ flex: 1, flexDirection: 'row', width: '100%' }} level='1'>
-        <Text>Videos: {numeral(props.data.videos).format('0.0a')}</Text>
-      </Layout>
-      <Layout style={{ flex: 1, flexDirection: 'row', width: '100%' }} level='1'>
-        <Text>Views: {numeral(props.data.views).format('0.0a')}</Text>
-      </Layout>
-    </Layout>
-    <Text style={{ marginTop: 10 }}>{props.data.description}</Text>
-  </Card>);
-}
+import openBrowser from '../../OpenBrowser';
 
 interface SettingsScreenProps {
+  theme: string;
   toggleTheme: () => void;
 }
 interface SettingsScreenState {
   ytl: string;
-  profile: {
-    about: string;
-    availability: number;
-    country: string;
-    links: Array<any>;
-    name: string;
-    telegram: any;
-    tiktok: any;
-    youtube: any;
-  };
 }
 export class SettingsScreen extends React.Component<SettingsScreenProps, SettingsScreenState> {
   constructor(props: SettingsScreenProps) {
     super(props);
     this.state = {
       ytl: "",
-      profile: {
-        about: "",
-        availability: 0,
-        country: "",
-        links: [],
-        name: "",
-        telegram: {},
-        tiktok: {},
-        youtube: {},
-      }
     };
   };
+  async addYoutube() {
+    await profileService.addYoutube(this.state.ytl);
+    this.setState({ ytl: "" });
+  }
   render() {
-    let dom = async () => {
-      await tokenService.register("cat3", "cat");
-      let token = await tokenService.login("cat3", "cat");
-      if (token) {
-        tokenService.setToken(token);
-        profileService.setToken(token);
-      }
-      await tokenService.test();
-      await profileService.new("Cat");
-      await profileService.addYoutube(this.state.ytl);
-      let res = await profileService.get();
-      this.setState({
-        profile: res.data.profile
-      });
-    };
     return (
       <>
-        <Text style={{ marginBottom: 10 }} category="h4">Profile</Text>
-        <Text style={{ marginBottom: 10 }}>Name: {this.state.profile.name}</Text>
-        {Object.keys(this.state.profile.youtube).length > 0 && <Text style={{ marginBottom: 10 }}>Youtube:</Text>}
-        {Object.entries(this.state.profile.youtube).map((i: [string, unknown]) => {
-          let v = i[1] as YoutubeData;
-          return (<Youtube key={v.imageUrl} data={v} />);
-        })}
-        {Object.keys(this.state.profile.youtube).length == 0 && <Layout style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }} level='2'>
-          <Input
-            placeholder='Place youtube link'
-            value={this.state.ytl}
-            onChangeText={nextValue => this.setState({ ytl: nextValue })}
-          />
-          <Button style={{ marginBottom: 8 }} onPress={() => { dom(); }}>Get Data</Button>
-        </Layout>}
-        <Divider style={{ marginVertical: 30 }} />
-        <Text category="h4">Settings</Text>
-        <Text></Text>
-        <Layout style={{ flexDirection: 'column', alignItems: 'flex-start' }} level='2'>
-          <Button style={{ marginBottom: 8 }} onPress={() => { this.props.toggleTheme(); }}>Change theme</Button>
-        </Layout>
+        <Card style={{ marginBottom: 10 }}>
+          <Text style={{ marginBottom: 10 }} category="h4">Profile</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginTop: 10 }}>
+            <View style={{ marginRight: 5, flex: 1 }}>
+              <Input style={{ marginBottom: 8 }} size='medium' placeholder='Youtube channel link' value={this.state.ytl} onChangeText={nextValue => this.setState({ ytl: nextValue })} />
+            </View>
+            <View style={{ marginRight: 5 }}>
+              <Button style={{ marginBottom: 8, height: 0 }} size='medium' onPress={() => { this.addYoutube(); }}>Add link</Button>
+            </View>
+          </View>
+        </Card>
+        <Card style={{ marginBottom: 10 }}>
+          <Text category="h4">Settings</Text>
+          <Text></Text>
+          <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Toggle style={{ marginBottom: 8 }} checked={this.props.theme === 'evalight'} onChange={() => { this.props.toggleTheme(); }}>
+              {this.props.theme === 'evalight' ? 'Light theme' : 'Dark theme'}
+            </Toggle>
+          </View>
+        </Card>
+        <View style={{ paddingHorizontal: 20, paddingTop: 40, alignItems: "center", opacity: .3 }}>
+          <Text>
+            Inflr.app is made by
+            {' '}
+            <Text style={{ textDecorationStyle: "solid", textDecorationLine: "underline" }} onPress={() => openBrowser("https://nikolai.works/")}>
+              Nikolai Kiselev <Icon style={{ width: 14, height: 14 }} fill='#8F9BB3' name='external-link-outline' />
+            </Text>
+          </Text>
+        </View>
       </>
     );
   }

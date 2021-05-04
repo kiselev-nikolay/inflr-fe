@@ -8,7 +8,7 @@ interface AppScreenProps {
 
 export function AppScreen(props: AppScreenProps) {
   return (
-    <Layout level="2" style={{ flex: 1, padding: 20, justifyContent: 'flex-start', alignItems: 'stretch' }}>
+    <Layout level="3" style={{ flex: 1, padding: 20, justifyContent: 'flex-start', alignItems: 'stretch' }}>
       {props.children}
     </Layout>
   );
