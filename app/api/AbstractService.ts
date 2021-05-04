@@ -70,7 +70,11 @@ export class AbstractService {
     return Promise.reject(error);
   };
 
-  getReq(path: any, callback: Callback) {
+  setToken(token: string) {
+    this.token = token;
+  }
+
+  getReq(path: any) {
     let opts: AxiosRequestConfig = {
       method: 'GET',
       url: this.base + path,
@@ -81,10 +85,10 @@ export class AbstractService {
         "X-Token-Verification": this.token
       };
     }
-    return this.service.request(opts).then((response) => callback(response.status, response.data));
+    return this.service.request(opts);
   }
 
-  postReq(path: string, payload: any, callback: Callback) {
+  postReq(path: string, payload: any) {
     let opts: AxiosRequestConfig = {
       method: 'POST',
       url: this.base + path,
@@ -97,6 +101,6 @@ export class AbstractService {
         "X-Token-Verification": this.token
       };
     }
-    return this.service.request(opts).then((response) => callback(response.status, response.data));
+    return this.service.request(opts);
   }
 }

@@ -1,7 +1,4 @@
-import {
-  AbstractService,
-  StatusRes,
-} from '../AbstractService';
+import { AbstractService } from '../AbstractService';
 
 interface tokenRes {
   "expire": number;
@@ -17,26 +14,21 @@ class AuthService extends AbstractService {
   validateStatus() {
     return true;
   };
-  register(login: string, password: string) {
-    this.postReq("/new", {
+  async register(login: string, password: string) {
+    await this.postReq("/new", {
       userKey: login,
       passwordVerification: password,
-    }, (status: number, data: StatusRes) => {
-      ;
     });
   }
-  login(login: string, password: string) {
-    this.postReq("/token", {
+  async login(login: string, password: string): Promise<string> {
+    let res = await this.postReq("/token", {
       userKey: login,
       passwordVerification: password,
-    }, (status: number, data: tokenRes) => {
-      if (data.status == "token created") {
-        this.token = data.token;
-      }
     });
+    return res.data.token;
   }
-  test() {
-    this.getReq("/test", (status: number, data: any) => { });
+  async test() {
+    await this.getReq("/test");
   }
 }
 
