@@ -1,10 +1,10 @@
 import * as eva from '@eva-design/eva';
 
-import { Sun } from './Sun';
+import { Purple } from './Purple';
 
 let themes = new Map<string, any>();
 
-themes.set("evadark", { ...eva.dark, ...Sun });
-themes.set("evalight", { ...eva.light, ...Sun });
+themes.set("evadark", { ...eva.dark, ...Purple });
+themes.set("evalight", { ...eva.light, ...Purple });
 
 export default themes;

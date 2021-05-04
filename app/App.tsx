@@ -51,7 +51,7 @@ export default class App extends React.Component<AppProps, AppState>{
 
   constructor(props: any) {
     super(props);
-    this.state = { theme: 'evalight', selectedIndex: 0, scrollY: new Animated.Value(0) };
+    this.state = { theme: 'evadark', selectedIndex: 0, scrollY: new Animated.Value(0) };
     this.screens = new Map<number, any>();
     this.screens.set(0, { title: "Reward", node: <RewardScreen /> });
     this.screens.set(1, { title: "Messages", node: <MessagesScreen /> });
