@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Divider,
+  Input,
   Layout,
   Text,
 } from '@ui-kitten/components';
@@ -58,6 +59,7 @@ interface SettingsScreenProps {
   toggleTheme: () => void;
 }
 interface SettingsScreenState {
+  ytl: string;
   profile: {
     about: string;
     availability: number;
@@ -73,6 +75,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
   constructor(props: SettingsScreenProps) {
     super(props);
     this.state = {
+      ytl: "",
       profile: {
         about: "",
         availability: 0,
@@ -94,8 +97,8 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
         profileService.setToken(token);
       }
       await tokenService.test();
-      // await profileService.new("Cat");
-      // await profileService.addYoutube("https://www.youtube.com/channel/UCrnEZZA7JAkCa19bJO8lQ-A");
+      await profileService.new("Cat");
+      await profileService.addYoutube(this.state.ytl);
       let res = await profileService.get();
       this.setState({
         profile: res.data.profile
@@ -111,6 +114,11 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
           return (<Youtube key={v.imageUrl} data={v} />);
         })}
         {Object.keys(this.state.profile.youtube).length == 0 && <Layout style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }} level='2'>
+          <Input
+            placeholder='Place youtube link'
+            value={this.state.ytl}
+            onChangeText={nextValue => this.setState({ ytl: nextValue })}
+          />
           <Button style={{ marginBottom: 8 }} onPress={() => { dom(); }}>Get Data</Button>
         </Layout>}
         <Divider style={{ marginVertical: 30 }} />
