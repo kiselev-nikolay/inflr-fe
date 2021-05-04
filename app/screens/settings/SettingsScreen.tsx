@@ -16,16 +16,17 @@ import {
 import tokenService from '../../api/auth';
 import profileService from '../../api/profile';
 
+interface YoutubeData {
+  title: string;
+  description: string;
+  imageUrl: string;
+  register: string;
+  subs: number;
+  videos: number;
+  views: number;
+}
 interface YoutubeProps {
-  data: {
-    title: string;
-    description: string;
-    imageUrl: string;
-    register: string;
-    subs: number;
-    videos: number;
-    views: number;
-  };
+  data: YoutubeData;
 }
 function Youtube(props: YoutubeProps) {
   const Header = () => (
@@ -63,9 +64,9 @@ interface SettingsScreenState {
     country: string;
     links: Array<any>;
     name: string;
-    telegram: Array<any>;
-    tiktok: Array<any>;
-    youtube: Array<any>;
+    telegram: any;
+    tiktok: any;
+    youtube: any;
   };
 }
 export class SettingsScreen extends React.Component<SettingsScreenProps, SettingsScreenState> {
@@ -78,9 +79,9 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
         country: "",
         links: [],
         name: "",
-        telegram: [],
-        tiktok: [],
-        youtube: [],
+        telegram: {},
+        tiktok: {},
+        youtube: {},
       }
     };
   };
@@ -94,7 +95,7 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
       }
       await tokenService.test();
       // await profileService.new("Cat");
-      // await profileService.addYoutube("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw");
+      // await profileService.addYoutube("https://www.youtube.com/channel/UCrnEZZA7JAkCa19bJO8lQ-A");
       let res = await profileService.get();
       this.setState({
         profile: res.data.profile
@@ -104,9 +105,12 @@ export class SettingsScreen extends React.Component<SettingsScreenProps, Setting
       <>
         <Text style={{ marginBottom: 10 }} category="h4">Profile</Text>
         <Text style={{ marginBottom: 10 }}>Name: {this.state.profile.name}</Text>
-        {this.state.profile.youtube.length > 0 && <Text style={{ marginBottom: 10 }}>Youtube:</Text>}
-        {this.state.profile.youtube.map(i => (<Youtube key={i.imageUrl} data={i} />))}
-        {this.state.profile.youtube.length == 0 && <Layout style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }} level='2'>
+        {Object.keys(this.state.profile.youtube).length > 0 && <Text style={{ marginBottom: 10 }}>Youtube:</Text>}
+        {Object.entries(this.state.profile.youtube).map((i: [string, unknown]) => {
+          let v = i[1] as YoutubeData;
+          return (<Youtube key={v.imageUrl} data={v} />);
+        })}
+        {Object.keys(this.state.profile.youtube).length == 0 && <Layout style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 10 }} level='2'>
           <Button style={{ marginBottom: 8 }} onPress={() => { dom(); }}>Get Data</Button>
         </Layout>}
         <Divider style={{ marginVertical: 30 }} />
